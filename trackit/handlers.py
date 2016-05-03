@@ -7,13 +7,17 @@ from forms import LoginForm
 @trackit.route('/')
 @trackit.route('/index')
 def index():
-	user = {'nickname':"Bopchy"}
-	return render_template('index.html', title='hume', user=user)
+	user = {'nickname':'Bopchy'}
+	return render_template('index.html', title='Home', user=user)
 
 @trackit.route('/login', methods=['GET', 'POST'])
 def login():
 	# Imports and instantiates an object of LoginForm class, form = object
 	form = LoginForm() 
+	if form.validate_on_submit(): # That is, if an empty form is submitted
+		flash('Login requires that you input your User_ID="%s", remember_me=%s'
+			%(form.openid.data, str(form.remember_me.data)))
+		return redirect ('/index')
 	return render_template('login.html', title='Sign In', form=form)
 
 

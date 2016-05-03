@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		
+		{% if title %}
+		<title>{{ title }} </title>
+		{% else %}
+		<title>Welcome to TrackIt</title>
+		{% endif %}
+
+	</head>
+	<body>
+		<div>TrackIt - <a href="/index">Home</a></div>
+		<hr>
+		<!-- How flash messages will be displayed -->
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				<ul>
+				{% for message in messages %}
+					<li> {{ message }} </li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+		{% endwith %}
+		<!-- How block content in various pages is accounted for -->
+		{% block content %}{% endblock %}
+	</body>
+</html>
