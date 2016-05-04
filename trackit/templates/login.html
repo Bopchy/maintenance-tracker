@@ -13,12 +13,15 @@
 			Please enter your User_ID:<br>
 			{{ form.openid(size=80)}}<br> 
 			<!-- Renders openid field with width of 80 chracaters -->
+			
+			<!-- Rendering openid associated validator -->
 			{% for error in form.openid.errors %}
 				<span style="color: red;">[{{ error }}]</span>
 			{% endfor %} <br>
 		</p>
 		<p>{{ form.remember_me }} Remember Me?</p>
-		<p><input type="submit" value="Sign In"></p>
+		<!-- Submit button -->
+		<p><input type="submit" value="Sign In"></p> 
 
 	</form>
 

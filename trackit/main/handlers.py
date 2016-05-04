@@ -17,7 +17,7 @@ def login():
 	if form.validate_on_submit(): # That is, if an empty form is submitted
 		flash('Login requires that you input your User_ID="%s", remember_me=%s'
 			%(form.openid.data, str(form.remember_me.data)))
-		return redirect ('/index')
+		return redirect ('/index') 
 	return render_template('login.html', title='Sign In', form=form)
 
 
