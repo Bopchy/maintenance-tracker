@@ -1,4 +1,4 @@
-# Is the handlers module 
+# Is the views module which deals with handlers 
 # Imports the Flask instance trackit from trackit package 
 from flask import render_template, flash, redirect, request, url_for
 from flask.ext.login import login_user
