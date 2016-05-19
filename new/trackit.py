@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 # App Initialization-- trackit is object of Flask class
 trackit = Flask(__name__)
@@ -8,17 +8,11 @@ trackit = Flask(__name__)
 
 # View functions 
 @trackit.route('/')
+@trackit.route('/home')
 def index():
-	return "<h1>Hello Bopchy!!</h1>"
+	return render_template('home.html')
 
-@trackit.route('/browser')
-def browser():
-	user_agent = request.headers.get('User-Agent')
-	return '<p>Your browser is %s!' % user_agent
 
-@trackit.route('/user/<name>')
-def user(name):
-	return '<h2>Hello, %s!</h2>' % name
 
 if __name__ == '__main__': # Ensures the development 
 # web server is started only when the script is executed 
