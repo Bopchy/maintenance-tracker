@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+ 
 
 # App Initialization-- trackit is object of Flask class
 trackit = Flask(__name__)
@@ -12,10 +13,13 @@ trackit = Flask(__name__)
 def index():
 	return render_template('home.html')
 
+@trackit.route('/register')
+def register():
+	return render_template('register.html')
 
 
 if __name__ == '__main__': # Ensures the development 
 # web server is started only when the script is executed 
 # directly 
-	trackit.debug==True # Activates debbuger and reloader
-	trackit.run()
+	trackit.debug=True # Activates debbuger and reloader
+	trackit.run(host='0.0.0.0')

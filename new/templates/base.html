@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="full" lang="en">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content"width=device-width,
 	initial-scale=1">
-	<title>Home - Trackit</title>
+	{% block title %} <title>Home - Trackit</title> {% endblock %}
 	<link rel="stylesheet" href="/static/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="/static/css/custom.css">
 	
@@ -33,8 +33,8 @@
 						<ul class="nav navbar-nav choose_page">
 							<li class="about"><a href="#">About</a></li>
 							<li class="Facilities"><a href="#">About</a></li>
-							<li class="SignIn"><a href="#">Sign In</a></li>
-							<li class="SignOut"><a href="#">SignOut</a></li>
+							<li class="Sign In"><a href="#">Sign In</a></li>
+							<li class="Sign Out"><a href="#">SignOut</a></li>
 							<li class="help"><a href="#">Help</a></li>
 						</ul>
 					</div>
@@ -43,6 +43,18 @@
 		</nav>
 	{% endblock %}
 
+{% block body %}
+	<div  class="body">
+		<div class="container special">
+			<div class="jumbotron">
+				<h1>Want to keep track of your organization's maintenance?</h1>
+				<h2>Sign Up to TrackIt today</h2>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block footer %}
 	<div class="footer-wrapper">
 		<div class="container">
 			<div class="footer">
@@ -52,6 +64,7 @@
 			</div>
 		</div>
 	</div>
+{% endblock %}
 
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="/static/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>

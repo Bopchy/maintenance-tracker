@@ -1,9 +1,30 @@
+/*
 body
 {
-	background-color: red
+	background-image: url(/static/images/background.jpg);
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: 100% 100%;
 }
+*/
 
 .footer-wrapper
 {
 	color: blue
+
+}
+
+
+.body
+{
+	
+	background-color: #023028; 
+	opacity: 0.8;
+}
+
+.jumbotron
+{
+	
+	height: 500px;
+	padding-top: 20;
 }
