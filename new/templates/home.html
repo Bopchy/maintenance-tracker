@@ -1,1 +1,11 @@
 {% extends "base.html" %}
+<!-- Import flask-bootstrap -->
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<div class="HomeSignUp">
+	{{HomeSignUp}}
+</div>
+<!-- This function takes a Flask-WTF form object and renders it using default bootstrap styles -->
+{{ wtf.quick_form(form) }}
+{% endblock %}

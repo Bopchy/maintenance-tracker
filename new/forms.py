@@ -1,6 +1,6 @@
 from flask.ext.wtf import Form
-from wtforms import StringField, SubmitField, PasswordField 
-from wtforms.validators import Required, Email, EqualTo 
+from wtforms import StringField, SubmitField, PasswordField, TextAreaField 
+from wtforms.validators import Required, Email, EqualTo, Length 
 
 def length_check(form, field): 
 	if len(field.data) > 100:
@@ -9,7 +9,8 @@ def length_check(form, field):
 
 #def is_required(form, field):
 
-class RegisterForm(Form):
+# Form on Sign Up page 
+class SignUpForm(Form):
 	BizEmail = StringField('Business/Organization Email',\
 		validators=[Required(), Email()])
 	BizName = StringField('What is the name of your \
@@ -19,5 +20,25 @@ class RegisterForm(Form):
 	ConfirmPassword = PasswordField('Retype Password', \
 		validators=[Required(), EqualTo(Password)])
 	Submit = SubmitField('Sign Up')
+	#PicUpload(Form):
 
-#class PicUpload(Form):
+# Form on Home page (for email) 
+class HomeSignUp(Form):
+	BizEmail = StringField('Business/ Organization Email',\
+		validators=[Required(), Email()])
+	Submit = SubmitField('Register as a new User')
+
+# Form on Sign In page 
+class SignIn(Form):
+	BizEmail = StringField('Business/Organization Email',\
+		validators=[Required(), Email()])
+	Password = PasswordField('Password', validators=[Required()])
+
+# Form on Request page 
+class RequestPost(Form):
+	Title = StringField('Give your request a title', \
+		validators=[Required()])
+	Comment = TextAreaField('Tell us more about your request...',\
+		validators=[Required(), Length()])
+	# upload photo
+	Post = SubmitField('Post Request')

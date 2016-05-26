@@ -12,10 +12,10 @@
 </head>
 <body>
 	<div class="container">
-	{% block navbar %}
-		<!--Navigation Bar-->
+		<!-- row 1-->
 		<header class="row">
-			<nav class="navbar navbar-inverse navbar-fixed-top main" role="navigation">
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<nav class="navbar navbar-inverse navbar-fixed-top main" role="navigation">
 				<div class="container-fluid">
 					<!--App name and toggle (visible in smaller screen) grouped for better mobile view-->
 					<div class="navbar-header">
@@ -43,40 +43,10 @@
 					</div>
 				</div>
 			</nav>
-		</header>
-	</div>
-	{% endblock %}
-
-{% block body %}
-<div  class="body-wrapper">
-	<div class="container special">
-		<div class="jumbotron">
-			<h1>Want to keep track of your organization's maintenance?</h1>
-			<h2>Sign Up to TrackIt today</h2>
-			{% block page_content %} {% endblock %}
-		</div>
-	</div>
-</div>
-{% endblock %}
-
-{% block footer %}
-<footer class="row">
-	<div class="footer-wrapper">
-		<div class="container">
-			<div class="footer">
-				<div class="col-sm-12 copyright text-center">
-					<p>Copyright 2016 TrackIt. All rigths reserved.</p>
-				</div>
 			</div>
-		</div>
+		</header>
+
+		<!-- row 2-->
 	</div>
-</footer>
-{% endblock %}
-
-{% block scripts%}
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	<script src="/static/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-{% endblock %}
-
 </body>
 </html>
