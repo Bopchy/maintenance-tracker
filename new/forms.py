@@ -15,7 +15,7 @@ class SignUpForm(Form):
 		validators=[Required(), Email()])
 	BizName = StringField('What is the name of your \
 		Business/ Organization?',validators=[Required(), \
-		length_check()]) 
+		Length(min=1, max=170)]) 
 	Password = PasswordField('Password', validators=[Required()])
 	ConfirmPassword = PasswordField('Retype Password', \
 		validators=[Required(), EqualTo(Password)])
@@ -39,6 +39,6 @@ class RequestPost(Form):
 	Title = StringField('Give your request a title', \
 		validators=[Required()])
 	Comment = TextAreaField('Tell us more about your request...',\
-		validators=[Required(), Length()])
+		validators=[Required(), Length(min=1, max=1800)])
 	# upload photo
 	Post = SubmitField('Post Request')

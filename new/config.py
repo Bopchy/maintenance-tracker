@@ -1,3 +1,10 @@
-from . import trackit 
+'''
+import trackit 
 
-trackit.config['SECRET_KEY'] = 'amwjenfbtvpz'
+class Config:
+	SECRET_KEY = 'amwjenfbtvpz'
+
+config ={
+	'default' : Config
+}
+'''
