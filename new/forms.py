@@ -2,10 +2,10 @@ from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField, PasswordField, TextAreaField 
 from wtforms.validators import Required, Email, EqualTo, Length 
 
-def length_check(form, field): 
-	if len(field.data) > 100:
-		raise ValidationError('Field must be less than \
-			100 characters')
+#def length_check(form, field): 
+#	if len(field.data) > 100:
+#		raise ValidationError('Field must be less than \
+#			100 characters')
 
 #def is_required(form, field):
 
@@ -17,7 +17,7 @@ class SignUpForm(Form):
 		Business/ Organization?',validators=[Required(), \
 		Length(min=1, max=170)]) 
 	Password = PasswordField('Password', validators=[Required()])
-	ConfirmPassword = PasswordField('Retype Password', \
+	ConfirmPassword = PasswordField('Re-type Password', \
 		validators=[Required(), EqualTo(Password)])
 	Submit = SubmitField('Sign Up')
 	#PicUpload(Form):
@@ -33,6 +33,7 @@ class SignIn(Form):
 	BizEmail = StringField('Business/Organization Email',\
 		validators=[Required(), Email()])
 	Password = PasswordField('Password', validators=[Required()])
+	Submit = SubmitField('Sign In')
 
 # Form on Request page 
 class RequestPost(Form):
@@ -41,4 +42,4 @@ class RequestPost(Form):
 	Comment = TextAreaField('Tell us more about your request...',\
 		validators=[Required(), Length(min=1, max=1800)])
 	# upload photo
-	Post = SubmitField('Post Request')
+	Submit = SubmitField('Post Request')

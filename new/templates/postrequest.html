@@ -1,0 +1,9 @@
+{% extends "base3.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+	<div class="RequestPost">
+		<h2>Post A Maintenance Request</h2>
+		{{ wtf.quick_form(Form) }}
+	</div>
+{% endblock %}

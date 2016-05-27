@@ -47,9 +47,30 @@ def register():
 	return render_template('signup.html', Form=Form, BizEmail=BizEmail,\
 		BizName=BizName, Password=Password, ConfirmPassword=ConfirmPassword)
 
+@trackit.route('/signin', methods=['GET', 'POST'])
+def signin():
+	BizEmail = None
+	Password = None
+	Form = SignIn()
+	if Form.validate_on_submit():
+		BizEmail = Form.BizEmail.data
+		Password = Form.Password.data
+	return render_template('signin.html', Form=Form, BizEmail=BizEmail, \
+		Password=Password)
 
-if __name__ == '__main__': # Ensures the development 
-# web server is started only when the script is executed 
+@trackit.route('/postrequest', methods=['GET', 'POST'])
+def postrequest():
+	Title = None
+	Comment = None
+	Form = RequestPost()
+	if Form.validate_on_submit():
+		Title = Form.Title.data
+		Comment = Form.Comment.data
+	return render_template('postrequest.html', Form=Form, Title=Title, \
+		Comment=Comment)
+
+if __name__ == '__main__': 
+# Ensures the development web server is started only when the script is executed 
 # directly 
 	trackit.debug=True # Activates debbuger and reloader
 	trackit.run(host='0.0.0.0')
