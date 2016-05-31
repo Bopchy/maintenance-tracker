@@ -5,10 +5,14 @@
 <!--Changing page_content from the one on base.html -->
 {% block page_content %}
 <div class="HomeSignUp">
-	<h1>Want to keep track of your organization's maintenance?</h1>
-	<h2>Sign Up to TrackIt today</h2>
-	
+	<form action="/signup.html" method="POST">
+		<h1>Want to keep track of your organization's maintenance?</h1>
+		<h2>Sign Up to TrackIt today</h2>
+
+		{{ wtf.form_field(Form.BizEmail) }} 
+		<input type="submit" value="Register as a New User"></input>
+	</form>	
 </div>
 <!-- This function takes a Flask-WTF form object and renders it using default bootstrap styles -->
-{{ wtf.quick_form(Form) }}
+
 {% endblock %}

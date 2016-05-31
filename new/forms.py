@@ -1,6 +1,8 @@
 from flask.ext.wtf import Form
+from flask import session, request
 from wtforms import StringField, SubmitField, PasswordField, TextAreaField 
 from wtforms.validators import Required, Email, EqualTo, Length 
+ 
 
 #def length_check(form, field): 
 #	if len(field.data) > 100:
