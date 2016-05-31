@@ -1,20 +1,23 @@
-from flask import Flask, render_template, redirect, url_for, session, request, g
+from flask import Flask, render_template, redirect, url_for, session, request
 from flask_bootstrap import Bootstrap
-from flask.ext.script import Shell, Manager
-
+from flask_script import Manager
+from flask_migrate import MigrateCommand, Migrate
+#from flask_wtf.csrf import CsrfProtect
+import forms
+from forms import SignUpForm, HomeSignUp, SignIn, RequestPost
 from flask.ext.sqlalchemy import SQLAlchemy
 import os 
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 # App Initialization-- trackit is object of Flask class
 trackit = Flask(__name__)
 # __name__ is used to determine the root path of the application 
 # so it can find resource files relative to the location of the app
 
-from forms import SignUpForm, HomeSignUp, SignIn, RequestPost
-import forms 
+
 
 trackit.config['SECRET_KEY'] = 'amwjenfbtvpz' 
 # Setting encryption key for CSRF
@@ -29,21 +32,21 @@ db = SQLAlchemy(trackit)
 # database and is what gives access to all functionality of 
 # Flask-SQLAlchemy   
 Bootstrap(trackit)
+#CsrfProtect(trackit)
 manager = Manager(trackit)
+migrate = Migrate(trackit, db)
+manager.add_command('db', MigrateCommand)
 
 # Adding a shell context 
 # 'make_shell_context' function registers the application, db instance, 
 # models; so that they are automatically imported into the shell 
-def make_shell_context():
-	return dict(app=trackit, db=db, User=User, Requests=Requests)
-manager.add_command("Shell", Shell(make_context=make_shell_context))
 
 class BizEmail(db.Model):
 	__tablename__ = 'biz_emails'
 	id = db.Column(db.Integer, primary_key=True)
 	BizEmail = db.Column(db.String(100), unique=True, index=True)
 
-########### Fix this table 
+########### Fix this table - BizEmail column  
 class User(db.Model):
 	__tablename__ = 'user' 
 	# Defines name of the table in the database
@@ -65,37 +68,40 @@ def index():
 # Variable BizEmail is to hold the value placed in BizEmail field
 # on the form, when it becomes available 
 # When value is unknown, BizEmail is equal to None
-	BizEmail = None
+	bizEmail = None
 	Form = HomeSignUp() 
 # Handler created instance of the form class HomeSignUp  
 	if request.method == 'POST':
-# Validate_on_submit() returns True if form has been submitted, and 
-# all validators were satisfied; otherwise it returns False   
-		BizEmail = User.query.filter_by(BizEmail=Form.BizEmail.data)
-		# Checks to see if submitted business email already exixts in db 
-		if BizEmail is not None:
-			BizEmail = Form.BizEmail.data
-			user = User(BizEmail=BizEmail)
-			db.session.add(user) # Adds submitted email into db
+		# Checks to see if required form validators have been satisfied 
+	#if request.method == 'POST':
+		# Checks to see if submitted business email already exists in db 
+		if BizEmail.query.filter_by(BizEmail=Form.BizEmail.data):
+			biz_emails =BizEmail(BizEmail=Form.BizEmail.data)
+			Form.populate_obj(biz_emails)
+			db.session.add(biz_emails) # Adds submitted email into db
 			db.session.commit()
 			session['exists'] = False
-			# 'exists' is a variable created to deal with the redirecting to a 
-			# page stating that email already exists in the database. 
+				# 'exists' is a variable created to deal with the redirecting to a 
+				# page stating that email already exists in the database. 
 		else:
 			session['exists'] = True
 			#### Flash message stating email already exists in db
 		session['BizEmail'] = Form.BizEmail.data
+		# Ensures value stored in BizEmail is remembered past the request
 		Form.BizEmail.data = ''
+		# Clears the form field by making it into an empty string 
 		return redirect(url_for('register'))
+		# Its only forms with valid inputted data that can move on to the 
+		# /signup.html page
 	return render_template('home.html', Form=Form, \
 		BizEmail=session.get('BizEmail'))
+	# If BizEmail is None there will be no error because the get() automatically 
+	# returns None when there is no value (see page 46 Flask Web Devlpmnt)
 
 @trackit.route('/signup', methods=['GET', 'POST'])
 def register():
-	user = User.query.filter_by(BizEmail=session['BizEmail'])
-
-
-	Form = SignUpForm(obj=user)
+	#user = User.query.filter_by(BizEmail=session['BizEmail'])
+	Form = SignUpForm()
 	BizEmail = None
 	BizName = None
 	Password = None
@@ -126,7 +132,7 @@ def register():
 def signin():
 	BizEmail = None
 	if session['BizEmail']:
-		BizEmail = g.BizEmail
+		BizEmail = BizEmail
 	Password = None
 	Form = SignIn()
 	if Form.validate_on_submit():
@@ -151,7 +157,8 @@ def user_account():
 	return render_template('user.html')
 
 if __name__ == '__main__': 
+	#manager.run()
 # Ensures the development web server is started only when the script is executed 
 # directly 
-	trackit.debug=True # Activates debbuger and reloader
+	trackit.debug = True # Activates debbuger and reloader
 	trackit.run(host='0.0.0.0')
