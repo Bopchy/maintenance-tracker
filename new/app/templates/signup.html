@@ -5,7 +5,7 @@
 {% block page_content %}
 <div class="SignUpForm">
 	<h1>Sign Up</h1>
-	<form action="/signin" method="POST">
+	<form action="" method="POST">
 		{{ Form.csrf_token }} 
 		{{ wtf.form_field(Form.BizEmail) }}
 		{{ wtf.form_field(Form.BizName) }}

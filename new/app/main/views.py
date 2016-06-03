@@ -4,21 +4,19 @@ from ..models import BizEmail, User, Requests
 from .. import db
 from . import main
 
-# View functions 
 @main.route('/', methods=['GET', 'POST'])
 @main.route('/home', methods=['GET', 'POST'])
 def index():
 # Variable BizEmail is to hold the value placed in BizEmail field
 # on the form, when it becomes available 
 # When value is unknown, BizEmail is equal to None
-	bizEmail = None
+	biz_emails = None
 	Form = HomeSignUp() 
-# Handler created instance of the form class HomeSignUp  
+	# Handler created instance of the form class HomeSignUp  
 	if request.method == 'POST':
 		# Checks to see if required form validators have been satisfied 
-	#if request.method == 'POST':
 		# Checks to see if submitted business email already exists in db 
-		if BizEmail.query.filter_by(BizEmail=Form.BizEmail.data):
+		if biz_emails is None:
 			biz_emails = BizEmail(BizEmail=Form.BizEmail.data)
 			Form.populate_obj(biz_emails)
 			db.session.add(biz_emails) # Adds submitted email into db
@@ -43,33 +41,29 @@ def index():
 
 @main.route('/signup', methods=['GET', 'POST'])
 def register():
-	#user = User.query.filter_by(BizEmail=session['BizEmail'])
+	biz_emails = session.get('BizEmail')
+	# Places email entered on the home page, in the email slot on sign up page
+	biz_name = None
+	password = None
+	confirm_password = None
 	Form = SignUpForm()
-	BizEmail = None
-	BizName = None
-	Password = None
-	ConfirmPassword = None
-	if request.method =='POST': 	
-		if Form.validate_on_submit():
-			BizEmail = User.query.filter_by(BizEmail=Form.BizEmail.data)
-			#BizName =
-			if BizEmail is None:
-				BizEmail = Form.BizEmail.data
-				db.session.add(BizEmail) # Adds submitted email into db
-				session['BizEmail'] = BizEmail
-				session['exists'] = False
-			else:
-				session['exists'] = True
-			session['BizEmail'] = Form.BizEmail.data
-			Form.BizEmail.data = ''
-			
-			
-			BizName = Form.BizName.data
-			Password = Form.Password.data
-			ConfirmPassword = Form.ConfirmPassword.data 
-			return redirect(url_for('.signin'))
-	return render_template('signup.html', Form=Form, BizEmail=session.get('BizEmail'),\
-		BizName=BizName, Password=Password, ConfirmPassword=ConfirmPassword)
+	if request.method =='POST' and Form.validate_on_submit():
+		biz_name = User(BizName=Form.BizName.data)
+		Form.populate_obj(biz_name)
+		db.session.add(biz_name) 
+		db.session.commit()
+		password = User(Password=Form.Password.data)
+		Form.populate_obj(password)
+		db.session.add(password)
+		db.session.commit()
+		### Deal with password confirmation
+		Form.BizEmail.data = '' 
+		Form.BizName.data  = ''
+		Form.Password.data = ''
+		Form.ConfirmPassword.data = ''
+		return redirect(url_for('.signin'))
+	return render_template('signup.html', Form=Form, BizEmail=biz_emails,\
+		BizName=biz_name, Password=password, ConfirmPassword=confirm_password)
 
 @main.route('/signin', methods=['GET', 'POST'])
 def signin():
