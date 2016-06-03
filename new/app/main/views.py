@@ -13,9 +13,10 @@ def index():
 	biz_emails = None
 	Form = HomeSignUp() 
 	# Handler created instance of the form class HomeSignUp  
-	if request.method == 'POST':
+	if request.method == 'POST' and Form.validate_on_submit():
 		# Checks to see if required form validators have been satisfied 
 		# Checks to see if submitted business email already exists in db 
+		
 		if biz_emails is None:
 			biz_emails = BizEmail(BizEmail=Form.BizEmail.data)
 			Form.populate_obj(biz_emails)
@@ -48,14 +49,11 @@ def register():
 	confirm_password = None
 	Form = SignUpForm()
 	if request.method =='POST' and Form.validate_on_submit():
-		biz_name = User(BizName=Form.BizName.data)
+		biz_name = User(BizName=Form.BizName.data, password=Form.Password.data)
 		Form.populate_obj(biz_name)
 		db.session.add(biz_name) 
 		db.session.commit()
-		password = User(Password=Form.Password.data)
-		Form.populate_obj(password)
-		db.session.add(password)
-		db.session.commit()
+		
 		### Deal with password confirmation
 		Form.BizEmail.data = '' 
 		Form.BizName.data  = ''

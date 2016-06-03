@@ -11,6 +11,7 @@ class Config:
 	SQLALCHEMY_DATABASE_URI = 'sqlite:///' + \
 		os.path.join(basedir, 'trackit_data.sqlite')
 	# Creates database 'trackit_data.sqlite'
+	DEBUG = None
 
 	@staticmethod
 	def init_app(trackit):

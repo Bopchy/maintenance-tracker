@@ -17,10 +17,11 @@ class SignUpForm(Form):
 		validators=[Required(), Email()])
 	BizName = StringField('What is the name of your \
 		Business/ Organization?',validators=[Required(), \
-		Length(min=1, max=170)]) 
-	Password = PasswordField('Password', validators=[Required()])
-	ConfirmPassword = PasswordField('Re-type Password', \
-		validators=[Required(), EqualTo(Password)])
+		Length(min=1, max=60)]) 
+	Password = PasswordField('Password', validators=[Required(), \
+		EqualTo('ConfirmPassword', message='Passwords must match'), \
+		Length(min=2)])
+	ConfirmPassword = PasswordField('Re-type Password')
 	Submit = SubmitField('Sign Up')
 	#PicUpload(Form):
 
