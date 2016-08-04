@@ -55,17 +55,17 @@ def register():
 		db.session.add(biz_name) 
 		db.session.commit()
 		
-		### Deal with password confirmation
+		### Deal with password length and allowed characters confirmation 
 		Form.BizEmail.data = '' 
 		Form.BizName.data  = ''
 		Form.Password.data = ''
 		Form.ConfirmPassword.data = ''
-		return redirect(url_for('.signin'))
+		return redirect(url_for('auth.signin'))
 	return render_template('signup.html', Form=Form, BizEmail=biz_emails,\
 		BizName=biz_name, Password=password, ConfirmPassword=confirm_password)
 
 # @main.route('/signin', methods=['GET', 'POST'])
-
+	
 
 @main.route('/postrequest', methods=['GET', 'POST'])
 @login_required 
