@@ -1,6 +1,7 @@
 from flask import render_template, url_for, session, redirect, request
-from .forms import SignUpForm, HomeSignUp, SignIn, RequestPost 
+from .forms import SignUpForm, HomeSignUp, RequestPost 
 from ..models import BizEmail, User, Requests
+from flask.ext.login import login_required
 from .. import db
 from . import main
 
@@ -63,20 +64,11 @@ def register():
 	return render_template('signup.html', Form=Form, BizEmail=biz_emails,\
 		BizName=biz_name, Password=password, ConfirmPassword=confirm_password)
 
-@main.route('/signin', methods=['GET', 'POST'])
-def signin():
-	BizEmail = None
-	if session['BizEmail']:
-		BizEmail = BizEmail
-	Password = None
-	Form = SignIn()
-	if Form.validate_on_submit():
-		BizEmail = Form.BizEmail.data
-		Password = Form.Password.data
-	return render_template('signin.html', Form=Form, BizEmail=BizEmail, \
-		Password=Password)
+# @main.route('/signin', methods=['GET', 'POST'])
+
 
 @main.route('/postrequest', methods=['GET', 'POST'])
+@login_required 
 def postrequest():
 	Title = None
 	Comment = None
